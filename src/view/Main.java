@@ -156,12 +156,20 @@ public class Main extends Application {
                 String email = tfEmail.getText();
                 String password = passwordField.getText();
                 String studentOrTeacher = (String) choiceBox.getValue();
-                boolean resultOfRegister = controller.tryRegister(name, email, password, studentOrTeacher);
+                boolean isTeacher;
+                if (studentOrTeacher.equals("Student")) {
+                    isTeacher = false;
+                } else {
+                    isTeacher = true;
+                }
+                boolean resultOfRegister = controller.tryRegister(name, email, password, isTeacher);
                 if (resultOfRegister) {
-                    Scene registerScene = new Scene(new Group(new Label("Welcome: " + name + ", you are now registered")), 200, 100);
-                    Stage loginStage = new Stage();
-                    loginStage.setScene(registerScene);
-                    loginStage.show();
+                    if (!isTeacher) {
+                        Scene registerScene = new Scene(new Group(new Label("Welcome: " + name + ", you are now registered")), 200, 100);
+                        Stage loginStage = new Stage();
+                        loginStage.setScene(registerScene);
+                        loginStage.show();
+                    }
                 } else {
                     Scene loginSceneFail = new Scene(new Group(new Label("Register failed! User already exists.")), 200, 20);
                     Stage loginStageFail = new Stage();
@@ -179,42 +187,57 @@ public class Main extends Application {
                 String password = passwordField.getText();
                 String StudentOrTeacher = choiceBox.getValue().toString();
                 if (StudentOrTeacher.equals("Student")) {
-                    Label welcomeUser = new Label("Welcome student " + name);
-                    Button buttonShowCourses = new Button("Show my courses");
-                    Button buttonRegisterCourse = new Button("Register new course");
-                    Button buttonShowAllCourses = new Button("Show all courses");
-                    buttonShowCourses.setOnMouseClicked(handlerCoursesShowMy);
-                    buttonShowAllCourses.setOnMouseClicked(handlerCoursesShowAll);
-                    GridPane gridPane = new GridPane();
-                    gridPane.add(welcomeUser, 0, 1);
-                    gridPane.add(buttonShowCourses, 0, 2);
-                    gridPane.add(buttonRegisterCourse, 0, 3);
-                    gridPane.add(buttonShowAllCourses, 0, 4);
-                    Scene loginSceneUser = new Scene(new Group(gridPane));
-                    Stage loginStageUser = new Stage();
-                    loginStageUser.setScene(loginSceneUser);
-                    loginStageUser.show();
+                    boolean resultOfLoginStudent = controller.tryLogin(email,password,false);
+                    if (resultOfLoginStudent) {
+
+
+                        Label welcomeUser = new Label("Welcome student " + name);
+                        Button buttonShowCourses = new Button("Show my courses");
+                        Button buttonRegisterCourse = new Button("Register new course");
+                        Button buttonShowAllCourses = new Button("Show all courses");
+                        buttonShowCourses.setOnMouseClicked(handlerCoursesShowMy);
+                        buttonShowAllCourses.setOnMouseClicked(handlerCoursesShowAll);
+                        GridPane gridPane = new GridPane();
+                        gridPane.add(welcomeUser, 0, 1);
+                        gridPane.add(buttonShowCourses, 0, 2);
+                        gridPane.add(buttonRegisterCourse, 0, 3);
+                        gridPane.add(buttonShowAllCourses, 0, 4);
+                        Scene loginSceneUser = new Scene(new Group(gridPane));
+                        Stage loginStageUser = new Stage();
+                        loginStageUser.setScene(loginSceneUser);
+                        loginStageUser.show();
+                    }
                     return;
                 }
                 if (StudentOrTeacher.equals("Teacher")) {
-                    boolean resultOfLoginTeacher = controller.tryLoginTeacher(email, password);
-                    System.out.println(resultOfLoginTeacher);
-                    Label welcomeTeacher = new Label("Welcome teacher: " + name + "!");
-                    Button buttonShowCourses = new Button("Show my courses");
-                    Button buttonRegisterCourse = new Button("Register new course");
-                    Button buttonShowAllCourses = new Button("Show all courses");
-                    buttonShowCourses.setOnMouseClicked(handlerCoursesShowMy);
-                    buttonRegisterCourse.setOnMouseClicked(handlerCoursesSignupStudent);
-                    buttonShowAllCourses.setOnMouseClicked(handlerCoursesShowAll);
-                    GridPane gridPane = new GridPane();
-                    gridPane.add(welcomeTeacher, 0, 1);
-                    gridPane.add(buttonShowCourses, 0, 2);
-                    gridPane.add(buttonRegisterCourse, 0, 3);
-                    gridPane.add(buttonShowAllCourses, 0, 4);
-                    Scene loginSceneTeacher = new Scene(new Group(gridPane));
-                    Stage loginStageTeacher = new Stage();
-                    loginStageTeacher.setScene(loginSceneTeacher);
-                    loginStageTeacher.show();
+                    boolean resultOfLoginTeacher = controller.tryLogin(email, password, true);
+                    if (resultOfLoginTeacher) {
+
+                        Label welcomeTeacher = new Label("Welcome teacher: " + name + "!");
+                        Button buttonShowCourses = new Button("Show my courses");
+                        Button buttonRegisterCourse = new Button("Register new course");
+                        Button buttonShowAllCourses = new Button("Show all courses");
+                        buttonShowCourses.setOnMouseClicked(handlerCoursesShowMy);
+                        buttonRegisterCourse.setOnMouseClicked(handlerCoursesSignupStudent);
+                        buttonShowAllCourses.setOnMouseClicked(handlerCoursesShowAll);
+                        GridPane gridPane = new GridPane();
+                        gridPane.add(welcomeTeacher, 0, 1);
+                        gridPane.add(buttonShowCourses, 0, 2);
+                        gridPane.add(buttonRegisterCourse, 0, 3);
+                        gridPane.add(buttonShowAllCourses, 0, 4);
+                        Scene loginSceneTeacher = new Scene(new Group(gridPane));
+                        Stage loginStageTeacher = new Stage();
+                        loginStageTeacher.setScene(loginSceneTeacher);
+                        loginStageTeacher.show();
+                    } else {
+                        Scene loginSceneFail = new Scene(new Group(new Label("Login failed!")), 200, 20);
+                        Stage loginStageFail = new Stage();
+                        loginStageFail.setScene(loginSceneFail);
+                        loginStageFail.show();
+                        return;
+                    }
+                    // Create a else to handle failed login, both this and the method for student login.
+
                     return;
                 }
                 else if (StudentOrTeacher.equals("Admin") && password.equals("Password")) {

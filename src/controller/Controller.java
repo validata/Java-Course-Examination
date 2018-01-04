@@ -21,18 +21,23 @@ public class Controller {
         this.users = UserManager.getAllUsers();
     }
 
-    public boolean tryLoginStudent(String email, String password) {
+    public boolean tryLogin(String email, String password, boolean isTeacher) {
         if (email.equals("Admin") && password.equals("Password")) {
             System.out.println("Hi admin");
             return true;
         } else {
             try {
                 DBFetch dbFetch = new DBFetch();
-                if (dbFetch.checkLogin(email, password)) {
-                    System.out.println("Login student successful //controller");
-                    return true;
+                if (dbFetch.tryLogin(email, password, isTeacher)) {
+                    if (isTeacher) {
+                        System.out.println("Login teacher successful //controller");
+                        return true;
+                    } else {
+                        System.out.println("Login student successful //controller");
+                        return true;
+                    }
                 } else {
-                    System.out.println("Login student failed //controller");
+                    System.out.println("Login failed //controller");
                     return false;
                 }
             } catch (Exception e) {
@@ -40,45 +45,8 @@ public class Controller {
                 e.printStackTrace();
                 return false;
             }
-            /*
-            for (int i = 0; i < users.getUsers().size(); i++) {
-                if (users.getUsers().get(i).getEmail().equals(email) && users.getUsers().get(i).getPassword().equals(password)) {
-                    return true;
-                }
-            }
-            */
         }
     }
-
-    public boolean tryLoginTeacher(String email, String password) {
-        if (email.equals("Admin") && password.equals("Password")) {
-            System.out.println("Hi admin");
-            return true;
-        } else {
-            try {
-                DBFetch dbFetch = new DBFetch();
-                if (dbFetch.checkLogin(email, password)) {
-                    System.out.println("Login student successful //controller");
-                    return true;
-                } else {
-                    System.out.println("Login student failed //controller");
-                    return false;
-                }
-            } catch (Exception e) {
-                System.out.println("Login user failed hard//controller");
-                e.printStackTrace();
-                return false;
-            }
-            /*
-            for (int i = 0; i < users.getUsers().size(); i++) {
-                if (users.getUsers().get(i).getEmail().equals(email) && users.getUsers().get(i).getPassword().equals(password)) {
-                    return true;
-                }
-            }
-            */
-        }
-    }
-
 
     public boolean tryisTeacher(String studentOrTeacher) {
         try {
@@ -94,21 +62,20 @@ public class Controller {
         return false;
     }
 
-    public boolean tryRegister(String name, String email, String password, String studentOrTeacher){
+    public boolean tryRegister(String name, String email, String password, boolean isTeacher){
         // First try login
-        if (tryLoginStudent(email,password)) {
-            System.out.println("Show error msg");
+        if (tryLogin(email,password, isTeacher)) {
+            System.out.println("Account already exists!");
+            return false;
         // Check if user or teacher
         } else {
-            if (tryisTeacher(studentOrTeacher)) {
-                tryRegisterTeacher(name,email,password);
-                return true;
+            if (isTeacher) {
+                return false;
             } else {
                 tryRegisterStudent(name,email,password);
-                return true;
             }
+            return true;
         }
-        return false;
     }
 
     public boolean tryRegisterStudent(String name, String email, String password) {
