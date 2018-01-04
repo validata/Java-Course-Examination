@@ -50,7 +50,7 @@ public class Main extends Application {
                 final ListView<String> listView = new ListView<>();
 
                 // TODO Calculate length of all courses and loop creating obj:
-                for(int counter = 0; counter < getCoursesAll.size(); counter++) {
+                for (int counter = 0; counter < getCoursesAll.size(); counter++) {
                     System.out.println(getCoursesAll.get(counter));
                 }
                 String obj1 = "Monday";
@@ -78,6 +78,7 @@ public class Main extends Application {
         EventHandler handlerCoursesShowMy = new EventHandler() {
             @Override
             public void handle(Event event) {
+                String email = "TEST";
                 String getCoursesMy = controller.getCoursesMy(email);
                 final Label label = new Label("Selected");
                 final ListView<String> listView = new ListView<>();
@@ -117,9 +118,9 @@ public class Main extends Application {
                 Controller controller = new Controller();
                 butRegister.setOnMousePressed(Event -> controller.setCoursesCreateNew(course));
                 GridPane gridPane = new GridPane();
-                gridPane.add(lab1,0,0);
-                gridPane.add(tf1,0,1);
-                gridPane.add(butRegister,0,2);
+                gridPane.add(lab1, 0, 0);
+                gridPane.add(tf1, 0, 1);
+                gridPane.add(butRegister, 0, 2);
                 Scene registerCoursesScene = new Scene(new Group(gridPane));
                 Stage registerCoursesStage = new Stage();
                 registerCoursesStage.setScene(registerCoursesScene);
@@ -138,9 +139,9 @@ public class Main extends Application {
                 Button butRegister = new Button("Register");
                 //butRegister.setOnMouseClicked(controller.setCoursesRegister(email, courseToRegister));
                 GridPane gridPane = new GridPane();
-                gridPane.add(lab1,0,0);
-                gridPane.add(tf1,0,1);
-                gridPane.add(butRegister,0,2);
+                gridPane.add(lab1, 0, 0);
+                gridPane.add(tf1, 0, 1);
+                gridPane.add(butRegister, 0, 2);
                 Scene registerCoursesScene = new Scene(new Group(gridPane));
                 Stage registerCoursesStage = new Stage();
                 registerCoursesStage.setScene(registerCoursesScene);
@@ -194,6 +195,7 @@ public class Main extends Application {
                     Stage loginStageUser = new Stage();
                     loginStageUser.setScene(loginSceneUser);
                     loginStageUser.show();
+                    return;
                 }
                 if (StudentOrTeacher.equals("Teacher")) {
                     boolean resultOfLoginTeacher = controller.tryLoginTeacher(email, password);
@@ -217,29 +219,34 @@ public class Main extends Application {
                     loginStageTeacher.show();
                     return;
                 }
-                if (StudentOrTeacher.equals("Admin") && password.equals("Password")) {
-                //DRAW SCENE ADMIN
-                Label welcomeAdmin = new Label("Welcome Admin: " + name + "!");
-                Button buttonShowCourses = new Button("Show all courses");
-                Button buttonRegisterCourse = new Button("Register new course");
-                buttonShowCourses.setOnMouseClicked(handlerCoursesShowAll);
-                buttonRegisterCourse.setOnMouseClicked(handlerCoursesCreateNew);
-                GridPane gridpane = new GridPane();
-                //gridpane.add(welcomeAdmin, 0, 1);
-                gridpane.add(buttonRegisterCourse, 0, 2);
-                gridpane.add(buttonShowCourses, 0, 3);
-                gridpane.getRowConstraints().add(new RowConstraints(10));
-                gridpane.getRowConstraints().add(new RowConstraints(20));
-                Scene loginSceneAdmin = new Scene(new Group(gridpane));
-                Stage loginStageAdmin = new Stage();
-                loginStageAdmin.setScene(loginSceneAdmin);
-                loginStageAdmin.show();
-            } else {
-                Scene loginSceneFail = new Scene(new Group(new Label("Login failed!")), 200, 20);
-                Stage loginStageFail = new Stage();
-                loginStageFail.setScene(loginSceneFail);
-                loginStageFail.show();
+                else if (StudentOrTeacher.equals("Admin") && password.equals("Password")) {
+                    //DRAW SCENE ADMIN
+                    Label welcomeAdmin = new Label("Welcome Admin: " + name + "!");
+                    Button buttonShowCourses = new Button("Show all courses");
+                    Button buttonRegisterCourse = new Button("Register new course");
+                    buttonShowCourses.setOnMouseClicked(handlerCoursesShowAll);
+                    buttonRegisterCourse.setOnMouseClicked(handlerCoursesCreateNew);
+                    GridPane gridpane = new GridPane();
+                    //gridpane.add(welcomeAdmin, 0, 1);
+                    gridpane.add(buttonRegisterCourse, 0, 2);
+                    gridpane.add(buttonShowCourses, 0, 3);
+                    gridpane.getRowConstraints().add(new RowConstraints(10));
+                    gridpane.getRowConstraints().add(new RowConstraints(20));
+                    Scene loginSceneAdmin = new Scene(new Group(gridpane));
+                    Stage loginStageAdmin = new Stage();
+                    loginStageAdmin.setScene(loginSceneAdmin);
+                    loginStageAdmin.show();
+                    return;
+                } else {
+                    Scene loginSceneFail = new Scene(new Group(new Label("Login failed!")), 200, 20);
+                    Stage loginStageFail = new Stage();
+                    loginStageFail.setScene(loginSceneFail);
+                    loginStageFail.show();
+                    return;
+                }
+            }
         };
+
         GridPane gridpane = new GridPane();
         Scene scene = new Scene(gridpane, Color.DARKKHAKI);
         gridpane.setPrefSize(300, 250);
@@ -267,3 +274,5 @@ public class Main extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+        }
+    }
