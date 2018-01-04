@@ -114,9 +114,8 @@ public class Main extends Application {
                 Label lab1 = new Label("Here you can register for a course:");
                 TextField tf1 = new TextField("11");
                 Button butRegister = new Button("Register");
-                String course = tf1.getText();
                 Controller controller = new Controller();
-                butRegister.setOnMousePressed(Event -> controller.setCoursesCreateNew(course));
+                butRegister.setOnMousePressed(Event -> controller.setCoursesCreateNew(tf1.getText()));
                 GridPane gridPane = new GridPane();
                 gridPane.add(lab1, 0, 0);
                 gridPane.add(tf1, 0, 1);
@@ -148,6 +147,28 @@ public class Main extends Application {
                 registerCoursesStage.show();
             }
         };
+
+        EventHandler handlerCoursesSignupTeacher = new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                String courseToRegister = "Dummy";
+                String email = "Test";
+                //String setCoursesRegister = controller.setCoursesRegisterStudent(email, course);
+                Label lab1 = new Label("Here you can register for a course:");
+                TextField tf1 = new TextField("");
+                Button butRegister = new Button("Register");
+                //butRegister.setOnMouseClicked(controller.setCoursesRegister(email, courseToRegister));
+                GridPane gridPane = new GridPane();
+                gridPane.add(lab1, 0, 0);
+                gridPane.add(tf1, 0, 1);
+                gridPane.add(butRegister, 0, 2);
+                Scene registerCoursesScene = new Scene(new Group(gridPane));
+                Stage registerCoursesStage = new Stage();
+                registerCoursesStage.setScene(registerCoursesScene);
+                registerCoursesStage.show();
+            }
+        };
+
 
         EventHandler handlerTryRegister = new EventHandler() {
             @Override
@@ -189,14 +210,13 @@ public class Main extends Application {
                 if (StudentOrTeacher.equals("Student")) {
                     boolean resultOfLoginStudent = controller.tryLogin(email,password,false);
                     if (resultOfLoginStudent) {
-
-
                         Label welcomeUser = new Label("Welcome student " + name);
                         Button buttonShowCourses = new Button("Show my courses");
                         Button buttonRegisterCourse = new Button("Register new course");
                         Button buttonShowAllCourses = new Button("Show all courses");
                         buttonShowCourses.setOnMouseClicked(handlerCoursesShowMy);
                         buttonShowAllCourses.setOnMouseClicked(handlerCoursesShowAll);
+                        buttonRegisterCourse.setOnMouseClicked(handlerCoursesSignupStudent);
                         GridPane gridPane = new GridPane();
                         gridPane.add(welcomeUser, 0, 1);
                         gridPane.add(buttonShowCourses, 0, 2);
@@ -214,11 +234,11 @@ public class Main extends Application {
                     if (resultOfLoginTeacher) {
 
                         Label welcomeTeacher = new Label("Welcome teacher: " + name + "!");
+                        Button buttonRegisterCourse = new Button("Register to a course");
                         Button buttonShowCourses = new Button("Show my courses");
-                        Button buttonRegisterCourse = new Button("Register new course");
                         Button buttonShowAllCourses = new Button("Show all courses");
                         buttonShowCourses.setOnMouseClicked(handlerCoursesShowMy);
-                        buttonRegisterCourse.setOnMouseClicked(handlerCoursesSignupStudent);
+                        buttonRegisterCourse.setOnMouseClicked(handlerCoursesSignupTeacher);
                         buttonShowAllCourses.setOnMouseClicked(handlerCoursesShowAll);
                         GridPane gridPane = new GridPane();
                         gridPane.add(welcomeTeacher, 0, 1);

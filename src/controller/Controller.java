@@ -26,26 +26,42 @@ public class Controller {
             System.out.println("Hi admin");
             return true;
         } else {
+            System.out.println("tryLogin student or teacher //controller");
             try {
                 DBFetch dbFetch = new DBFetch();
-                if (dbFetch.tryLogin(email, password, isTeacher)) {
-                    if (isTeacher) {
-                        System.out.println("Login teacher successful //controller");
-                        return true;
-                    } else {
-                        System.out.println("Login student successful //controller");
+                try {
+                    if (!dbFetch.tryLogin(email, password, isTeacher)) {
+                        System.out.println("tryLogin failed , please retry // controller");
+                        return false;
+                    }
+                    else {
                         return true;
                     }
-                } else {
-                    System.out.println("Login failed //controller");
-                    return false;
-                }
+                } catch (Exception e){
+                        System.out.println("Error??");
+                    }
+
+                    /*
+                    if (dbFetch.tryLogin(email, password, isTeacher)) {
+                        if (isTeacher) {
+                            System.out.println("Login teacher successful //controller");
+                            return true;
+                        } else {
+                            System.out.println("Login student successful //controller");
+                            return true;
+                        }
+                    } else {
+                        System.out.println("Login failed //controller");
+                        return false;
+                    } */
+
+
             } catch (Exception e) {
                 System.out.println("Login user failed hard//controller");
-                e.printStackTrace();
                 return false;
             }
         }
+        return true;
     }
 
     public boolean tryisTeacher(String studentOrTeacher) {
@@ -138,6 +154,15 @@ public class Controller {
         //return "Trying to register course: " + course + "";
     }
 
+    public boolean setCourseTeacher(int teacherID, int courseID) {
+        try {
+            DBUpdate dbUpdate = new DBUpdate();
+            dbUpdate.updateCourseTeacher(teacherID, courseID);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
     public static void main(String[] args) {
         new Controller();
     }
