@@ -39,205 +39,115 @@ public class Main extends Application {
         choiceBox.setTooltip(new Tooltip("Select if user or teacher..."));
         Button buttonLogin = new Button("Login");
         Button buttonRegister = new Button("Register");
-        EventHandler handlerTryLogin = new EventHandler() {
+
+        EventHandler handlerCoursesShowAll = new EventHandler() {
             @Override
             public void handle(Event event) {
-                String name = tfName.getText();
-                String email = tfEmail.getText();
-                String password = passwordField.getText();
-                String userOrTeacher = choiceBox.getValue().toString();
+                ArrayList getCoursesAll = controller.getCoursesAll();
+                System.out.println(getCoursesAll);
 
-                boolean resultOfLogin = controller.tryLogin(email, password);
-                boolean resultisTeacherOrUser = controller.tryisTeacher(userOrTeacher);
+                final Label label = new Label("Selected");
+                final ListView<String> listView = new ListView<>();
 
-                EventHandler handlerCoursesShowAll = new EventHandler() {
-                    @Override
-                    public void handle(Event event) {
-                        ArrayList getCoursesAll = controller.getCoursesAll();
-                        System.out.println(getCoursesAll);
-
-                        final Label label = new Label("Selected");
-                        final ListView<String> listView = new ListView<>();
-
-                        // TODO Calculate length of all courses and loop creating obj:
-
-                        for(int counter = 0; counter < getCoursesAll.size(); counter++) {
-                            System.out.println(getCoursesAll.get(counter));
-                        }
-                        String obj1 = "Monday";
-                        String obj2 = "Tuesday";
-                        ObservableList<String> list = FXCollections.observableArrayList(
-                                obj1,
-                                obj2);
-                        listView.setItems(list);
-                        listView.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
-                            @Override
-                            public void handle(javafx.scene.input.MouseEvent event) {
-                                label.setText("Selected: " +
-                                        listView.getSelectionModel().getSelectedItems());
-                            }
-                        });
-                        VBox vBox = new VBox();
-                        vBox.getChildren().addAll(label, listView);
-                        StackPane root = new StackPane();
-                        root.getChildren().add(vBox);
-                        primaryStage.setScene(new Scene(root, 300, 250));
-                        primaryStage.show();
-                    }
-                };
-
-                EventHandler handlerCoursesShowMy = new EventHandler() {
-                    @Override
-                    public void handle(Event event) {
-                        String getCoursesMy = controller.getCoursesMy(email);
-                        final Label label = new Label("Selected");
-                        final ListView<String> listView = new ListView<>();
-
-                        // TODO Calculate length of all courses and loop creating obj:
-                        String obj1 = getCoursesMy;
-                        String obj2 = "Tuesday";
-                        ObservableList<String> list = FXCollections.observableArrayList(
-                                obj1,
-                                obj2);
-                        listView.setItems(list);
-                        listView.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
-                            @Override
-                            public void handle(javafx.scene.input.MouseEvent event) {
-                                label.setText("Selected: " +
-                                        listView.getSelectionModel().getSelectedItems());
-                            }
-                        });
-                        VBox vBox = new VBox();
-                        vBox.getChildren().addAll(label, listView);
-                        StackPane root = new StackPane();
-                        root.getChildren().add(vBox);
-                        primaryStage.setScene(new Scene(root, 300, 250));
-                        primaryStage.show();
-                    }
-                };
-                EventHandler handlerCoursesCreateNew = new EventHandler() {
-                    @Override
-                    public void handle(Event event) {
-                        System.out.println("HEJ");
-                        String courseToRegister = "Dummy";
-                        String email = "Test";
-                        //String setCoursesRegister = controller.setCoursesRegister(email, course);
-                        //System.out.println(setCoursesRegister);
-                        Label lab1 = new Label("Here you can register for a course:");
-                        TextField tf1 = new TextField("11");
-                        Button butRegister = new Button("Register");
-                        String course = tf1.getText();
-                        Controller controller = new Controller();
-                        butRegister.setOnMousePressed(Event -> controller.setCoursesCreateNew(course));
-                        GridPane gridPane = new GridPane();
-                        gridPane.add(lab1,0,0);
-                        gridPane.add(tf1,0,1);
-                        gridPane.add(butRegister,0,2);
-                        Scene registerCoursesScene = new Scene(new Group(gridPane));
-                        Stage registerCoursesStage = new Stage();
-                        registerCoursesStage.setScene(registerCoursesScene);
-                        registerCoursesStage.show();
-                    }
-                };
-                EventHandler handlerCoursesSignup = new EventHandler() {
-                    @Override
-                    public void handle(Event event) {
-                        String courseToRegister = "Dummy";
-                        String email = "Test";
-
-                        //String setCoursesRegister = controller.setCoursesRegister(email, course);
-                        //System.out.println(setCoursesRegister);
-                        Label lab1 = new Label("Here you can register for a course:");
-                        TextField tf1 = new TextField("");
-                        Button butRegister = new Button("Register");
-                        //butRegister.setOnMouseClicked(controller.setCoursesRegister(email, courseToRegister));
-                        GridPane gridPane = new GridPane();
-                        gridPane.add(lab1,0,0);
-                        gridPane.add(tf1,0,1);
-                        gridPane.add(butRegister,0,2);
-                        Scene registerCoursesScene = new Scene(new Group(gridPane));
-                        Stage registerCoursesStage = new Stage();
-                        registerCoursesStage.setScene(registerCoursesScene);
-                        registerCoursesStage.show();
-                    }
-                };
-                if (resultOfLogin) {
-                    //passwordd, so we can use Password instead and procceed until finished
-                    if (((email.equals("Admin") && (password.equals("Password"))))) {
-                        Label welcomeAdmin = new Label("Welcome Admin: " + name + "!");
-                        Button buttonShowCourses = new Button("Show all courses");
-                        Button buttonRegisterCourse = new Button("Register new course");
-                        buttonShowCourses.setOnMouseClicked(handlerCoursesShowAll);
-                        buttonRegisterCourse.setOnMouseClicked(handlerCoursesCreateNew);
-                        GridPane gridpane = new GridPane();
-                        gridpane.add(welcomeAdmin, 0, 1);
-                        gridpane.add(buttonRegisterCourse, 0, 2);
-                        gridpane.add(buttonShowCourses, 0, 3);
-                        gridpane.getRowConstraints().add(new RowConstraints(10));
-                        gridpane.getRowConstraints().add(new RowConstraints(20));
-                        Scene loginSceneAdmin = new Scene(new Group(gridpane));
-                        Stage loginStageAdmin = new Stage();
-                        loginStageAdmin.setScene(loginSceneAdmin);
-                        loginStageAdmin.show();
-                        return;
-                    }
-                    if (resultisTeacherOrUser) {
-                        Label welcomeTeacher = new Label("Welcome teacher: " + name + "!");
-                        Button buttonShowCourses = new Button("Show my courses");
-                        Button buttonRegisterCourse = new Button("Register new course");
-                        Button buttonShowAllCourses = new Button("Show all courses");
-                        buttonShowCourses.setOnMouseClicked(handlerCoursesShowMy);
-                        buttonRegisterCourse.setOnMouseClicked(handlerCoursesSignup);
-                        buttonShowAllCourses.setOnMouseClicked(handlerCoursesShowAll);
-                        GridPane gridPane = new GridPane();
-                        gridPane.add(welcomeTeacher, 0, 1);
-                        gridPane.add(buttonShowCourses, 0, 2);
-                        gridPane.add(buttonRegisterCourse, 0, 3);
-                        gridPane.add(buttonShowAllCourses, 0, 4);
-                        Scene loginSceneTeacher = new Scene(new Group(gridPane));
-                        Stage loginStageTeacher = new Stage();
-                        loginStageTeacher.setScene(loginSceneTeacher);
-                        loginStageTeacher.show();
-                        return;
-
-                    } else {
-                        // Uses trying getNameByEmail instead of "name"...
-                        //String nameOfUser = controller.getNameByEmail(email);
-                        Label welcomeUser = new Label("Welcome student " + name);
-                        Button buttonShowCourses = new Button("Show my courses");
-                        Button buttonRegisterCourse = new Button("Register new course");
-                        Button buttonShowAllCourses = new Button("Show all courses");
-                        buttonShowCourses.setOnMouseClicked(handlerCoursesShowMy);
-                        buttonRegisterCourse.setOnMouseClicked(handlerCoursesSignup);
-                        buttonShowAllCourses.setOnMouseClicked(handlerCoursesShowAll);
-                        GridPane gridPane = new GridPane();
-                        gridPane.add(welcomeUser, 0, 1);
-                        gridPane.add(buttonShowCourses, 0, 2);
-                        gridPane.add(buttonRegisterCourse, 0, 3);
-                        gridPane.add(buttonShowAllCourses, 0, 4);
-                        Scene loginSceneUser = new Scene(new Group(gridPane));
-                        Stage loginStageUser = new Stage();
-                        loginStageUser.setScene(loginSceneUser);
-                        loginStageUser.show();
-                        return;
-
-                        // TODO Remove?:
-                    /*
-                    String nameOfUser = controller.getNameByEmail(email);
-                    Scene loginSceneUser = new Scene(new Group(new Label("WELCOME "+nameOfUser)),200,100);
-                    Stage loginStageUser = new Stage();
-                    loginStageUser.setScene(loginSceneUser);
-                    loginStageUser.show();
-                    */
-                    }
-                } else {
-                    Scene loginSceneFail = new Scene(new Group(new Label("Login failed!")), 200, 20);
-                    Stage loginStageFail = new Stage();
-                    loginStageFail.setScene(loginSceneFail);
-                    loginStageFail.show();
+                // TODO Calculate length of all courses and loop creating obj:
+                for(int counter = 0; counter < getCoursesAll.size(); counter++) {
+                    System.out.println(getCoursesAll.get(counter));
                 }
+                String obj1 = "Monday";
+                String obj2 = "Tuesday";
+                ObservableList<String> list = FXCollections.observableArrayList(
+                        obj1,
+                        obj2);
+                listView.setItems(list);
+                listView.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
+                    @Override
+                    public void handle(javafx.scene.input.MouseEvent event) {
+                        label.setText("Selected: " +
+                                listView.getSelectionModel().getSelectedItems());
+                    }
+                });
+                VBox vBox = new VBox();
+                vBox.getChildren().addAll(label, listView);
+                StackPane root = new StackPane();
+                root.getChildren().add(vBox);
+                primaryStage.setScene(new Scene(root, 300, 250));
+                primaryStage.show();
             }
         };
+
+        EventHandler handlerCoursesShowMy = new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                String getCoursesMy = controller.getCoursesMy(email);
+                final Label label = new Label("Selected");
+                final ListView<String> listView = new ListView<>();
+
+                // TODO Calculate length of all courses and loop creating obj:
+                String obj1 = getCoursesMy;
+                String obj2 = "Tuesday";
+                ObservableList<String> list = FXCollections.observableArrayList(
+                        obj1,
+                        obj2);
+                listView.setItems(list);
+                listView.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
+                    @Override
+                    public void handle(javafx.scene.input.MouseEvent event) {
+                        label.setText("Selected: " +
+                                listView.getSelectionModel().getSelectedItems());
+                    }
+                });
+                VBox vBox = new VBox();
+                vBox.getChildren().addAll(label, listView);
+                StackPane root = new StackPane();
+                root.getChildren().add(vBox);
+                primaryStage.setScene(new Scene(root, 300, 250));
+                primaryStage.show();
+            }
+        };
+
+        EventHandler handlerCoursesCreateNew = new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                //String setCoursesRegister = controller.setCoursesCreateNew(email, course);
+                //System.out.println(setCoursesRegister);
+                Label lab1 = new Label("Here you can register for a course:");
+                TextField tf1 = new TextField("11");
+                Button butRegister = new Button("Register");
+                String course = tf1.getText();
+                Controller controller = new Controller();
+                butRegister.setOnMousePressed(Event -> controller.setCoursesCreateNew(course));
+                GridPane gridPane = new GridPane();
+                gridPane.add(lab1,0,0);
+                gridPane.add(tf1,0,1);
+                gridPane.add(butRegister,0,2);
+                Scene registerCoursesScene = new Scene(new Group(gridPane));
+                Stage registerCoursesStage = new Stage();
+                registerCoursesStage.setScene(registerCoursesScene);
+                registerCoursesStage.show();
+            }
+        };
+
+        EventHandler handlerCoursesSignupStudent = new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                String courseToRegister = "Dummy";
+                String email = "Test";
+                //String setCoursesRegister = controller.setCoursesRegisterStudent(email, course);
+                Label lab1 = new Label("Here you can register for a course:");
+                TextField tf1 = new TextField("");
+                Button butRegister = new Button("Register");
+                //butRegister.setOnMouseClicked(controller.setCoursesRegister(email, courseToRegister));
+                GridPane gridPane = new GridPane();
+                gridPane.add(lab1,0,0);
+                gridPane.add(tf1,0,1);
+                gridPane.add(butRegister,0,2);
+                Scene registerCoursesScene = new Scene(new Group(gridPane));
+                Stage registerCoursesStage = new Stage();
+                registerCoursesStage.setScene(registerCoursesScene);
+                registerCoursesStage.show();
+            }
+        };
+
         EventHandler handlerTryRegister = new EventHandler() {
             @Override
             public void handle(Event event) {
@@ -247,17 +157,6 @@ public class Main extends Application {
                 String studentOrTeacher = (String) choiceBox.getValue();
                 boolean resultOfRegister = controller.tryRegister(name, email, password, studentOrTeacher);
                 if (resultOfRegister) {
-                    /*
-                    if ((email.equals("Admin") && (password.equals ("Password")))){
-                        System.out.println("Admin is already registered");
-                        Scene loginScene = new Scene(new Group(new Label("WELCOME ADMIN")),200,100);
-                        Stage loginStage = new Stage();
-                        loginStage.setScene(loginScene);
-                        loginStage.show();
-                        return;
-                    }
-                    */
-                    //String nameOfUser = controller.getNameByEmail(email);
                     Scene registerScene = new Scene(new Group(new Label("Welcome: " + name + ", you are now registered")), 200, 100);
                     Stage loginStage = new Stage();
                     loginStage.setScene(registerScene);
@@ -269,6 +168,77 @@ public class Main extends Application {
                     loginStageFail.show();
                 }
             }
+        };
+
+        EventHandler handlerTryLogin = new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                String name = tfName.getText();
+                String email = tfEmail.getText();
+                String password = passwordField.getText();
+                String StudentOrTeacher = choiceBox.getValue().toString();
+                if (StudentOrTeacher.equals("Student")) {
+                    Label welcomeUser = new Label("Welcome student " + name);
+                    Button buttonShowCourses = new Button("Show my courses");
+                    Button buttonRegisterCourse = new Button("Register new course");
+                    Button buttonShowAllCourses = new Button("Show all courses");
+                    buttonShowCourses.setOnMouseClicked(handlerCoursesShowMy);
+                    //buttonRegisterCourse.setOnMouseClicked(handlerCoursesSignup);
+                    buttonShowAllCourses.setOnMouseClicked(handlerCoursesShowAll);
+                    GridPane gridPane = new GridPane();
+                    gridPane.add(welcomeUser, 0, 1);
+                    gridPane.add(buttonShowCourses, 0, 2);
+                    gridPane.add(buttonRegisterCourse, 0, 3);
+                    gridPane.add(buttonShowAllCourses, 0, 4);
+                    Scene loginSceneUser = new Scene(new Group(gridPane));
+                    Stage loginStageUser = new Stage();
+                    loginStageUser.setScene(loginSceneUser);
+                    loginStageUser.show();
+                }
+                if (StudentOrTeacher.equals("Teacher")) {
+                    boolean resultOfLoginTeacher = controller.tryLoginTeacher(email, password);
+                    System.out.println(resultOfLoginTeacher);
+                    //DRAW SCENE TEACHER
+                    Label welcomeTeacher = new Label("Welcome teacher: " + name + "!");
+                    Button buttonShowCourses = new Button("Show my courses");
+                    Button buttonRegisterCourse = new Button("Register new course");
+                    Button buttonShowAllCourses = new Button("Show all courses");
+                    buttonShowCourses.setOnMouseClicked(handlerCoursesShowMy);
+                    buttonRegisterCourse.setOnMouseClicked(handlerCoursesSignupStudent);
+                    buttonShowAllCourses.setOnMouseClicked(handlerCoursesShowAll);
+                    GridPane gridPane = new GridPane();
+                    gridPane.add(welcomeTeacher, 0, 1);
+                    gridPane.add(buttonShowCourses, 0, 2);
+                    gridPane.add(buttonRegisterCourse, 0, 3);
+                    gridPane.add(buttonShowAllCourses, 0, 4);
+                    Scene loginSceneTeacher = new Scene(new Group(gridPane));
+                    Stage loginStageTeacher = new Stage();
+                    loginStageTeacher.setScene(loginSceneTeacher);
+                    loginStageTeacher.show();
+                    return;
+                }
+                if (StudentOrTeacher.equals("Admin") && password.equals("Password")) {
+                //DRAW SCENE ADMIN
+                Label welcomeAdmin = new Label("Welcome Admin: " + name + "!");
+                Button buttonShowCourses = new Button("Show all courses");
+                Button buttonRegisterCourse = new Button("Register new course");
+                buttonShowCourses.setOnMouseClicked(handlerCoursesShowAll);
+                buttonRegisterCourse.setOnMouseClicked(handlerCoursesCreateNew);
+                GridPane gridpane = new GridPane();
+                //gridpane.add(welcomeAdmin, 0, 1);
+                gridpane.add(buttonRegisterCourse, 0, 2);
+                gridpane.add(buttonShowCourses, 0, 3);
+                gridpane.getRowConstraints().add(new RowConstraints(10));
+                gridpane.getRowConstraints().add(new RowConstraints(20));
+                Scene loginSceneAdmin = new Scene(new Group(gridpane));
+                Stage loginStageAdmin = new Stage();
+                loginStageAdmin.setScene(loginSceneAdmin);
+                loginStageAdmin.show();
+            } else {
+                Scene loginSceneFail = new Scene(new Group(new Label("Login failed!")), 200, 20);
+                Stage loginStageFail = new Stage();
+                loginStageFail.setScene(loginSceneFail);
+                loginStageFail.show();
         };
         GridPane gridpane = new GridPane();
         Scene scene = new Scene(gridpane, Color.DARKKHAKI);
@@ -297,8 +267,3 @@ public class Main extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-
-
-}
