@@ -1,5 +1,8 @@
 package dbCom;
 
+import model.Student;
+import model.User;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,6 +24,27 @@ public class DBInsert {
             System.out.println(e.getMessage());
         }
         return conn;
+    }
+
+    public void insertStudentObject(Student student) {
+
+        Connection conn = this.connect();
+        PreparedStatement preparedStatement1 = null;
+        ResultSet resultSet = null;
+        String name = student.getName();
+        String email = student.getEmail();
+        String password = student.getPassword();
+
+        try {
+            String sql = "INSERT INTO Student(name, email, password) VALUES(?,?,?)";
+            preparedStatement1 = conn.prepareStatement(sql);
+            preparedStatement1.setString(1,name);
+            preparedStatement1.setString(2,email);
+            preparedStatement1.setString(3,password);
+            preparedStatement1.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
         public void insertStudent(String name, String email, String password) {

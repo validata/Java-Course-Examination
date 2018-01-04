@@ -15,7 +15,7 @@ public class DBConnection {
      */
     public static void createNewDatabase(String fileName) {
 
-        String url = "jdbc:sqlite:theDB" + fileName;
+        String url = "jdbc:sqlite:TheDB.db";
 
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -70,7 +70,7 @@ public class DBConnection {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        createNewDatabase("test.db");
+        createNewDatabase("TheDB.db");
 
         createAllTables();
     }

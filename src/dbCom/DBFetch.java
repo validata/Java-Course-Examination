@@ -61,6 +61,7 @@ public class DBFetch {
                 preparedStatement1.close();
                 resultSet1.close();
             }
+
         } catch (Exception e) {
             System.out.println("Exception e! DBFetch couldnt connect. Msg:");
             System.out.println(e.getMessage());
