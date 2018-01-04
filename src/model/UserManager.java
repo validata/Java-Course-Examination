@@ -11,8 +11,7 @@ public abstract class UserManager {
             in.close();
             fileIn.close();
         } catch (IOException i) {
-            System.out.println("IOException in UserManager");
-
+            System.out.println();
         } catch (ClassNotFoundException c) {
             System.out.println("ClassNotFoundException in UserManager");
         }

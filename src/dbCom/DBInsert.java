@@ -8,11 +8,7 @@ import java.sql.*;
 import java.math.*;
 
 public class DBInsert {
-    /**
-     * Connect to the test.db database
-     *
-     * @return the Connection object
-     */
+    // @return the Connection object
     private Connection connect() {
         String url = "jdbc:sqlite:TheDB.db";
         //String username = "root";
@@ -23,11 +19,38 @@ public class DBInsert {
             Driver myDriver2 = new org.sqlite.JDBC();
             DriverManager.registerDriver(myDriver2);
             conn = DriverManager.getConnection(url);
-            System.out.println("Connection to DB established");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return conn;
+    }
+
+        public void insertStudent(String name, String email, String password) {
+        connect();
+        String sql = "INSERT INTO Student(name, email, password) VALUES(?,?,?)";
+
+        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, email);
+            pstmt.setString(3, password);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertTeacher(String name, String email, String password) {
+        connect();
+        String sql = "INSERT INTO Teacher(name, email, password) VALUES(?,?,?)";
+
+        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, email);
+            pstmt.setString(3, password);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public String insertCourse(String courseName) {
@@ -45,37 +68,31 @@ public class DBInsert {
         return courseName;
     }
 
-
-
-
-        public void insertUser(String name, String email, String password, Boolean isTeacher) {
-        connect();
-        String sql = "INSERT INTO users(name, email, password, isTeacher) VALUES(?,?,?,?)";
-
-        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            pstmt.setString(2, email);
-            pstmt.setString(3, password);
-            pstmt.setBoolean(4, isTeacher);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void ConnectCourseWithUser(Integer userId, Integer courseId) {
+    public void ConnectCourseWithUser(Integer user, Integer course) {
         String sql = "INSERT INTO userCourses(userId, courseId VALUES(?,?)";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, userId);
-            pstmt.setInt(2, courseId);
+            pstmt.setInt(1, user);
+            pstmt.setInt(2, course);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
+    public void ConnectCourseWithTeacher(Integer user, Integer course) {
+        String sql = "INSERT INTO userCourses(userId, courseId VALUES(?,?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, user);
+            pstmt.setInt(2, course);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     /**
      * @param args the command line arguments
      */
