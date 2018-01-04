@@ -184,7 +184,6 @@ public class Main extends Application {
                     Button buttonRegisterCourse = new Button("Register new course");
                     Button buttonShowAllCourses = new Button("Show all courses");
                     buttonShowCourses.setOnMouseClicked(handlerCoursesShowMy);
-                    //buttonRegisterCourse.setOnMouseClicked(handlerCoursesSignup);
                     buttonShowAllCourses.setOnMouseClicked(handlerCoursesShowAll);
                     GridPane gridPane = new GridPane();
                     gridPane.add(welcomeUser, 0, 1);
@@ -200,7 +199,6 @@ public class Main extends Application {
                 if (StudentOrTeacher.equals("Teacher")) {
                     boolean resultOfLoginTeacher = controller.tryLoginTeacher(email, password);
                     System.out.println(resultOfLoginTeacher);
-                    //DRAW SCENE TEACHER
                     Label welcomeTeacher = new Label("Welcome teacher: " + name + "!");
                     Button buttonShowCourses = new Button("Show my courses");
                     Button buttonRegisterCourse = new Button("Register new course");
@@ -220,7 +218,6 @@ public class Main extends Application {
                     return;
                 }
                 else if (StudentOrTeacher.equals("Admin") && password.equals("Password")) {
-                    //DRAW SCENE ADMIN
                     Label welcomeAdmin = new Label("Welcome Admin: " + name + "!");
                     Button buttonShowCourses = new Button("Show all courses");
                     Button buttonRegisterCourse = new Button("Register new course");
