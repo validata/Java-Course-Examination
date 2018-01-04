@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Course;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -159,17 +160,18 @@ public class Main extends Application {
         EventHandler handlerCoursesSignupTeacher = new EventHandler() {
             @Override
             public void handle(Event event) {
-                String courseToRegister = "Dummy";
-                String email = "Test";
                 //String setCoursesRegister = controller.setCoursesRegisterStudent(email, course);
                 Label lab1 = new Label("Here you can register for a course:");
-                TextField tf1 = new TextField("");
+                TextField tf1 = new TextField("Course name");
+                TextField tf2 = new TextField("Your email");
                 Button butRegister = new Button("Register");
-                //butRegister.setOnMouseClicked(controller.setCoursesRegister(email, courseToRegister));
+                Controller controller = new Controller();
+                butRegister.setOnMousePressed(Event -> controller.setCourseTeacher(tf1.getText(), tf2.getText()));
                 GridPane gridPane = new GridPane();
                 gridPane.add(lab1, 0, 0);
                 gridPane.add(tf1, 0, 1);
-                gridPane.add(butRegister, 0, 2);
+                gridPane.add(tf2,0,2);
+                gridPane.add(butRegister, 0, 3);
                 Scene registerCoursesScene = new Scene(new Group(gridPane));
                 Stage registerCoursesStage = new Stage();
                 registerCoursesStage.setScene(registerCoursesScene);

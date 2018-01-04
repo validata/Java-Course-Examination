@@ -18,7 +18,7 @@ public class DBFetch {
         return conn;
     }
 
-    public Boolean tryLogin(String email, String password, Boolean isTeacher) throws SQLException {
+    public Boolean tryLogin(String email, String password, Boolean isTeacher) {
 // TODO MODIFIERA DENNA KOD:
         PreparedStatement preparedStatement1 = null;
         ResultSet resultSet1 = null;

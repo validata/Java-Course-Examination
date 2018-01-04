@@ -156,10 +156,10 @@ public class Controller {
         //return "Trying to register course: " + course + "";
     }
 
-    public boolean setCourseTeacher(int teacherID, int courseID) {
+    public boolean setCourseTeacher(String name, String email) {
         try {
             DBUpdate dbUpdate = new DBUpdate();
-            dbUpdate.updateCourseTeacher(teacherID, courseID);
+            dbUpdate.updateCourseTeacher(name, email);
             return true;
         } catch (Exception e) {
             return false;
