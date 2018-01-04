@@ -2,7 +2,7 @@ package tests;
 import model.Course;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/*
 public class testCourse {
     int numberOfTests;
 
@@ -20,3 +20,4 @@ public class testCourse {
         System.out.println("Number of tests completed: " + numberOfTests);
     }
 }
+*/

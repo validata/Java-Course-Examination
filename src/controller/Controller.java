@@ -99,7 +99,6 @@ public class Controller {
             System.out.println("Hi admin is already registered");
             return false;
         } else {
-            //System.out.println("Controller confirms a: " + userOrTeacher + " with the name: " + name + "  is trying to register");
             //TODO Register user...
             DBInsert dbInsert = new DBInsert();
             dbInsert.insertStudent(name,email,password);
@@ -127,12 +126,15 @@ public class Controller {
         return "getNameByEmail end";
     }
 
-    public ArrayList getCoursesAll() {
+    public ArrayList<Course> getCoursesAll() {
         try {
-            ArrayList AllCourses;
-            AllCourses = dbSelect.selectAllCourses();
-            return AllCourses;
+            ArrayList<Course> courses;
+            courses = dbSelect.selectAllCourses();
+            System.out.println("From controller: ");
+            System.out.println(courses);
+            return courses;
         } catch (Exception e) {
+            System.out.println("Before null");
             return null;
         }
     }

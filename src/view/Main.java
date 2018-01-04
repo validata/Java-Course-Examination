@@ -1,7 +1,8 @@
 package view;
 
-import controller.*;
-import dbCom.*;
+import controller.Controller;
+import dbCom.DBInsert;
+import dbCom.DBSelect;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.Course;
+
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -43,15 +46,20 @@ public class Main extends Application {
         EventHandler handlerCoursesShowAll = new EventHandler() {
             @Override
             public void handle(Event event) {
-                ArrayList getCoursesAll = controller.getCoursesAll();
-                System.out.println(getCoursesAll);
-
+                DBSelect dbSelect = new DBSelect();
+                ArrayList<Course> getCoursesAll = controller.getCoursesAll();
+                System.out.println(getCoursesAll.toString());
                 final Label label = new Label("Selected");
                 final ListView<String> listView = new ListView<>();
 
                 // TODO Calculate length of all courses and loop creating obj:
-                for (int counter = 0; counter < getCoursesAll.size(); counter++) {
-                    System.out.println(getCoursesAll.get(counter));
+                try {
+
+                    for (int counter = 0; counter < getCoursesAll.size(); counter++) {
+                        System.out.println(getCoursesAll.get(counter));
+                    }
+                } catch (NullPointerException e) {
+                    System.out.println("NullPointerException in main!");
                 }
                 String obj1 = "Monday";
                 String obj2 = "Tuesday";
@@ -168,7 +176,6 @@ public class Main extends Application {
                 registerCoursesStage.show();
             }
         };
-
 
         EventHandler handlerTryRegister = new EventHandler() {
             @Override
