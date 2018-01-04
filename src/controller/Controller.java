@@ -1,11 +1,8 @@
-
 package controller;
 
 import dbCom.DBConnection;
 import dbCom.*;
 import model.*;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -26,56 +23,24 @@ public class Controller {
             System.out.println("Hi admin");
             return true;
         } else {
-            System.out.println("tryLogin student or teacher //controller");
             try {
                 DBFetch dbFetch = new DBFetch();
                 try {
-                    if (!dbFetch.tryLogin(email, password, isTeacher)) {
-                        System.out.println("tryLogin failed , please retry // controller");
-                        return false;
+                    if (dbFetch.tryLogin(email, password, isTeacher)) {
+                        return true;
                     }
                     else {
-                        return true;
+                        return false;
                     }
                 } catch (Exception e){
                         System.out.println("Error??");
                     }
-
-                    /*
-                    if (dbFetch.tryLogin(email, password, isTeacher)) {
-                        if (isTeacher) {
-                            System.out.println("Login teacher successful //controller");
-                            return true;
-                        } else {
-                            System.out.println("Login student successful //controller");
-                            return true;
-                        }
-                    } else {
-                        System.out.println("Login failed //controller");
-                        return false;
-                    } */
-
-
+                    return true;
             } catch (Exception e) {
                 System.out.println("Login user failed hard//controller");
                 return false;
             }
         }
-        return true;
-    }
-
-    public boolean tryisTeacher(String studentOrTeacher) {
-        try {
-            if (studentOrTeacher.equals("Teacher")){
-                return true;
-            } else {
-                return false;
-            }
-        }
-        catch (NullPointerException n) {
-            System.out.println("NullPointerException in controller tryisTeacher");
-        }
-        return false;
     }
 
     public boolean tryRegister(String name, String email, String password, boolean isTeacher){
@@ -86,11 +51,12 @@ public class Controller {
         // Check if user or teacher
         } else {
             if (isTeacher) {
-                return false;
+               tryRegisterTeacher(name,email,password);
+               return true;
             } else {
                 tryRegisterStudent(name,email,password);
+                return true;
             }
-            return true;
         }
     }
 
@@ -115,6 +81,7 @@ public class Controller {
             return true;
         }
     }
+    // TODO not in use for now
     public String getNameByEmail(String email) {
         try {
             System.out.println(users.getUsers().size());
@@ -153,7 +120,7 @@ public class Controller {
         DBInsert dbInsert = new DBInsert();
         dbInsert.insertCourse(course);
         return null;
-        //return "Trying to register course: " + course + "";
+        //TODO : return "Trying to register course: " + course + "";
     }
 
     public boolean setCourseTeacher(String name, String email) {
@@ -169,13 +136,3 @@ public class Controller {
         new Controller();
     }
 }
-    /*
-        for(int i=0; i < users.getUsers().size();i++){
-            if(users.getUsers().get(i).getEmail().equals(email)){
-                return users.getUsers().get(i).getName();
-            }
-        }
-        return "Name not found by email";
-
-        NullPointerException
-*/

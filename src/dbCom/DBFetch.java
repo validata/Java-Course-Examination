@@ -42,7 +42,6 @@ public class DBFetch {
                     preparedStatement1.close();
                     resultSet1.close();
                 }
-                System.out.println("Parameters are missing");
                 return false;
             } else {
                 String sql = "SELECT * FROM Teacher WHERE email = ? AND password = ?;";
@@ -62,32 +61,11 @@ public class DBFetch {
                 preparedStatement1.close();
                 resultSet1.close();
             }
-                /*
-                try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql2)) {
-                    pstmt.setString(1, email);
-                    pstmt.setString(2, password);
-                    resultSet2 = pstmt.executeQuery();
-                    if (resultSet2.next()) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-
-                } catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                    System.out.println("HERE");
-                    return false;
-                } finally {
-                    preparedStatement2.close();
-                    resultSet2.close();
-                }
-                */
         } catch (Exception e) {
             System.out.println("Exception e! DBFetch couldnt connect. Msg:");
             System.out.println(e.getMessage());
             return false;
         }
-        System.out.println("Returning false");
         return false;
     }
 }

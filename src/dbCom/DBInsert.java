@@ -11,8 +11,6 @@ public class DBInsert {
     // @return the Connection object
     private Connection connect() {
         String url = "jdbc:sqlite:TheDB.db";
-        //String username = "root";
-        //String password = "root";
 
         Connection conn = null;
         try {
@@ -99,10 +97,5 @@ public class DBInsert {
     public static void main(String[] args) {
 
         DBInsert app = new DBInsert();
-
-        // insert new rows
-
-        //app.insertUser("apa", "apa", "apa", true);
-        //app.ConnectCourseWithUser(1,8);
     }
 }

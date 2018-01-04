@@ -23,24 +23,14 @@ public class DBUpdate {
         Connection conn = this.connect();
 
         try {
+            String sql2 = "INSERT INTO Course (name, teacher) VALUES(?,?)";
             String sql = "UPDATE Course SET teacher = ? WHERE name = ?";
-            preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, email);
-            preparedStatement.setString(2, name);
-            resultSet = preparedStatement.executeUpdate();
-            resultSet = preparedStatement.executeQuery();
-            try {
-                System.out.println("sending to DB");
-                if (resultSet.next()) {
-                    return true;
-                }
-            } catch (Exception e) {
-                System.out.println("Exception!");
-                return false;
-            } finally {
-                preparedStatement.close();
-                resultSet.close();
-            }
+            preparedStatement = conn.prepareStatement(sql2);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, email);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            resultSet.close();
             return true;
         } catch (SQLException e) {
             System.out.println("Error: ");
